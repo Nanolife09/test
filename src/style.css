@@ -5,6 +5,7 @@
 
 html, body {
     height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +13,7 @@ html, body {
 
 h1 {
     text-align: center;
-    padding-bottom: 10px;
+    height: 50px;
 }
 
 .board {
@@ -48,7 +49,12 @@ h1 {
     background-color: pink;
 }
 
-.tile:hover,
-.tile:focus {
+.tile:hover {
     background-color: rgb(158, 252, 179);
+}
+
+.restart {
+    width: 400px;
+    height: 50px;
+    margin-top: 10px;
 }

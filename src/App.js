@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import "./style.css"
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
   const [turn, setTurn] = useState(0)
   const [checkWin, setWin] = useState(false)
   function tileSelected(event, index) {
-    if (tile[index] !== "") return
+    if (tile[index] !== "" || checkWin) return
     const char = (turn %  2=== 0) ? 'O' : 'X'
     setTurn(prevTurn => {return prevTurn + 1})
     event.target.innerHTML = char
@@ -47,10 +47,24 @@ function App() {
       return <h1>{winner} Wins!</h1>
     }
   }
+  const boardElement = useRef(null)
+  function restart() {
+    setTile(["", "", "", "", "", "", "", "", ""])
+    setWin(false)
+    setTurn(0)
+    console.log(boardElement.current.children[0].className)
+    for (let i = 0; i < boardElement.current.children.length; i++) {
+      boardElement.current.children[i].className = "tile"
+      boardElement.current.children[i].innerHTML = ""
+    }
+  }
+  function Restart() {
+    if (checkWin || turn === 9) return <button className = "restart" onClick={restart}>restart</button>
+  }
   return (
     <>
       <Result/>
-      <div className = "board">
+      <div className = "board" ref = {boardElement}>
         <button className = "tile" onClick={event => tileSelected(event, 0)}></button>
         <button className = "tile" onClick={event => tileSelected(event, 1)}></button>
         <button className = "tile" onClick={event => tileSelected(event, 2)}></button>
@@ -61,6 +75,7 @@ function App() {
         <button className = "tile" onClick={event => tileSelected(event, 7)}></button>
         <button className = "tile" onClick={event => tileSelected(event, 8)}></button>
       </div>
+      <Restart></Restart>
     </>
   );
 }
